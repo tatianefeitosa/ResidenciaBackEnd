@@ -1,0 +1,64 @@
+
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ----- Builds e pacotes -----
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+MANIFEST
+
+# ----- Logs e cache -----
+*.log
+*.pot
+*.mo
+*.pyc
+*.pyo
+*.pyd
+.coverage
+htmlcov/
+.pytest_cache/
+.cache/
+
+# ----- Django -----
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+
+# Diretórios de arquivos estáticos e mídia (coletados ou gerados localmente)
+staticfiles/
+media/
+
+# ----- Ambientes virtuais -----
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ----- Variáveis de ambiente -----
+.env
+.env.*
+
+# ----- IDEs / Editores -----
+.vscode/
+.idea/
+
+# ----- Tipagem e Linter -----
+.mypy_cache/
+.ruff_cache/
+
+# ----- Sistema operacional -----
+.DS_Store
+Thumbs.db
+
+# ----- Migrations -----
+# OBS: mantenha as migrations versionadas!
+# Não ignore migrations/*.py — apenas os caches e pastas temporárias
+__pycache__/

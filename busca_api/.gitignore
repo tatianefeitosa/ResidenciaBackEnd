@@ -44,7 +44,7 @@ venv.bak/
 
 # ----- Variáveis de ambiente -----
 .env
-.env.*
+#.env.*
 
 # ----- IDEs / Editores -----
 .vscode/

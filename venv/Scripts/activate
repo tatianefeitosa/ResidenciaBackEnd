@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\tatia\Desktop\testeDjango0\venv"
+VIRTUAL_ENV="C:\Users\tatia\Desktop\teste_clone\busca_api\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

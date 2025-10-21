@@ -26,6 +26,7 @@ Consulte o Notion para obter as credenciais do banco remoto.
 
 4. Instalar as dependências:
     ```bash
+    cd busca_api
     pip install -r requirements.txt
 
 

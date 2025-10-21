@@ -32,7 +32,6 @@ Consulte o Notion para obter as credenciais do banco remoto.
 
 5. Inicie o servidor:
     ```bash
-    cd busca_api
     python manage.py runserver
 
 O projeto estará disponível em: http://127.0.0.1:8000/

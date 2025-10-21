@@ -106,7 +106,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 # Database
 import dj_database_url
 DATABASES = {
-    "default": dj_database_url.config(default=os.environ.get("postgresql://postgres.abijnwbppiaenmaeyyfa:njLFBqDriqQfKeCT@aws-1-us-east-2.pooler.supabase.com:5432/postgres"))
+    "default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))
 }
 
 DATABASES = {

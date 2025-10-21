@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-gvv8@45vshu6^u0-0xm8q@ba$o5bsw6xx^e9qtu0wal_p%)cct
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['busca-api.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition

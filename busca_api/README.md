@@ -1,33 +1,49 @@
 # Projeto Django REST Framework
 
-## Como rodar o projeto localmente
-
-1. Clone o repositório:
+1. Clonar o repositório:
    ```bash
-   git clone https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
-   cd NOME_DO_REPOSITORIO
+   git clone https://github.com/tatianefeitosa/busca_api.git
+   cd busca_api
 
-2. Crie um ambiente virtual:
+
+2. Criar o .env local baseado no .env.example:
+    ```bash
+    copy .env.example .env   # Windows
+    cp .env.example .env     # Linux/macOS
+
+Preencha as variáveis do banco remoto (Supabase) e outras credenciais como SECRET_KEY, DEBUG e ALLOWED_HOSTS.
+Consulte o Notion para obter as credenciais do banco remoto.
+
+
+3. Criar e ativar o ambiente virtual:
     ```bash
     python -m venv venv
     venv\Scripts\activate  # Windows
     source venv/bin/activate  # Linux/Mac
 
-3. Instale as dependências:
+
+4. Instalar as dependências:
     ```bash
     pip install -r requirements.txt
 
-4. Crie o arquivo .env baseado no .env.example:
-    ```bash
-    cp .env.example .env  # Linux/Mac
-    copy .env.example .env # Windows
 
-5. Preencha as variáveis do .env com os valores corretos (SECRET_KEY, banco de dados, JWT).
-
-6. Rode as migrações e inicie o servidor:
+5. Inicie o servidor:
     ```bash
-    python manage.py migrate
     python manage.py runserver
+
+O projeto estará disponível em: http://127.0.0.1:8000/
+
+Para acessar o Swagger: http://127.0.0.1:8000/api/docs/
+
+
+6. Boas práticas de uso
+
+Não suba seu .env para o GitHub.
+
+Use sempre a mesma branch main para sincronizar atualizações.
+
+
+
 
 
 

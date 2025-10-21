@@ -28,7 +28,7 @@ urlpatterns = [
     path('api/', include('vagas.urls')),
     
     # candidatos
-    path('api/candidatos/', include('candidatos.urls')),
+    #path('api/candidatos/', include('candidatos.urls')),
 
     # endpoints do drf-spectacular
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

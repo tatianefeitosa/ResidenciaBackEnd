@@ -10,3 +10,8 @@ urlpatterns = [
 
 # Spetacular (Swagger UI) para testing: http://127.0.0.1:8000/api/docs/
 # use o access token do usuário que deseja testar as funcionalidades (gerado no login)
+
+#http://127.0.0.1:8000/api/vagas/
+#http://127.0.0.1:8000/api/vagas/1/
+#http://127.0.0.1:8000/api/vagas/pendentes/
+#http://127.0.0.1:8000/api/vagas/decisao/

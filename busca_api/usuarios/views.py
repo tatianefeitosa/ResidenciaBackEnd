@@ -15,6 +15,9 @@ from .serializers import RegisterSerializer, LoginSerializer, UsuarioSerializer
 def login_page(request):
     return render(request, 'usuario/index.html')
 
+def register_page(request):
+    return render(request, 'usuario/register.html')
+
 # Registro de usuário
 class RegisterView(generics.CreateAPIView):
     queryset = Usuario.objects.all()

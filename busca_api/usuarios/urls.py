@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.login_page, name='login_page'),  # 🔹 Tela de login (renderiza HTML)
+    path('register-page/', views.register_page, name='register_page'),  # 🔹 Tela de registro (renderiza HTML)
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     

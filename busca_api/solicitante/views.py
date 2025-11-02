@@ -4,3 +4,6 @@ from django.shortcuts import render
 
 def solicitante_home(request):
     return render(request, 'solicitante/solicitante-inicio.html')
+
+def solicitar_vaga(request):
+    return render(request, 'solicitante/solicitar-vaga.html')

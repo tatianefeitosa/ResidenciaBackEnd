@@ -27,14 +27,16 @@
   <body>
     <!--NAVBAR-->
   <div class="navbar-solicitante">
+
     <div class="logo">
-      <img src="/img/logoGraQ.png" alt="Logo da BBTS" style="height: 35px" />
+      <img src="{% static 'img/logoGraQ.png' %}" alt="Logo da BBTS" style="height: 35px;">
       <!-- <img src="{% static 'img/logoGraQ.png' %}"> -->
     </div>
     <div class="nav-right">
       <div class="links">
-        <a href="/solicitante/solicitante-inicio.html">Início</a>
-        <a href="{% url 'solicitante_home' %}">Solicitar Vaga</a>
+        <a href="{% url 'solicitante_home' %}">Inicio</a>
+        <a href="{% url 'solicitar_vaga' %}">Solicitar vaga</a>
+
       </div>
       <div class="user-menu">
         <div class="user-icon">

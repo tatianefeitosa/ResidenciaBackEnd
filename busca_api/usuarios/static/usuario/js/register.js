@@ -34,6 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         alert("Usuário registrado com sucesso!");
+
+        if (data.access) {
+          localStorage.setItem("access_token", data.access);
+        }
+        if (data.refresh) {
+          localStorage.setItem("refresh_token", data.refresh);
+        }
+
         if (tipo === "administracao") {
           window.location.href = "/administracao/";
         } else {

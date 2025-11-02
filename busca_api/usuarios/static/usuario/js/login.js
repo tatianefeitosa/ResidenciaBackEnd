@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
 
       if (response.ok) {
+
+        if (data.access) {
+          localStorage.setItem("access_token", data.access);
+        }
+        if (data.refresh) {
+          localStorage.setItem("refresh_token", data.refresh);
+        }
+
         console.log("Login bem-sucedido:", data);
         alert("Login realizado com sucesso!");
         // Exemplo: redirecionar para a página do tipo de usuário

@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         alert("Usuário registrado com sucesso!");
         if (tipo === "administracao") {
-          window.location.href = "/admin/dashboard/";
+          window.location.href = "/administracao/";
         } else {
           window.location.href = "/solicitante/";
         }

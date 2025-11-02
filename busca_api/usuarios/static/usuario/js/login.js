@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Login realizado com sucesso!");
         // Exemplo: redirecionar para a página do tipo de usuário
         if (tipoUsuario === "administracao") {
-          window.location.href = "/admin/dashboard/";
+          window.location.href = "/administracao/";
         } else {
           window.location.href = "/solicitante/";
         }

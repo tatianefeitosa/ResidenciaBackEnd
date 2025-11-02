@@ -24,6 +24,9 @@ urlpatterns = [
     # usuários
     path('api/usuarios/', include('usuarios.urls')),
 
+    #solicitante
+    path('solicitante/', include('solicitante.urls')),
+
     # vagas
     path('api/', include('vagas.urls')),
     

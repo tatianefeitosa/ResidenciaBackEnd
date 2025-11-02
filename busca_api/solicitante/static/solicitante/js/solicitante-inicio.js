@@ -1,133 +1,125 @@
-//Pesquisa Tela Inicial Gestor
-document.addEventListener("DOMContentLoaded", function () {
-  const searchInputs = document.querySelectorAll('input[type="search"]');
-  const searchButtons = document.querySelectorAll(".search button");
-  const contentContainers = document.querySelectorAll(".content");
+document.addEventListener("DOMContentLoaded", async function () {
+  const content = document.querySelector(".content");
+  const token = localStorage.getItem("access_token");
+  const searchInput = document.querySelector('input[type="search"]');
+  const searchButton = document.querySelector(".search button");
 
-  // Adiciona uma mensagem "nenhuma vaga encontrada" em cada bloco .content
-  contentContainers.forEach((container) => {
-    const mensagem = document.createElement("p");
-    mensagem.classList.add("mensagem-nenhuma-vaga");
-    mensagem.textContent = "Nenhuma vaga encontrada :(";
-    mensagem.style.display = "none";
-    mensagem.style.fontStyle = "italic";
-    mensagem.style.color = "#fff";
-    mensagem.style.marginTop = "20px";
-    container.appendChild(mensagem);
-  });
+  if (!token) {
+    alert("Sessão expirada! Faça login novamente.");
+    window.location.href = "/api/usuarios/";
+    return;
+  }
 
-  function realizarBusca(termo, containerIndex = 0) {
+  //Função que renderiza as vagas
+  async function carregarVagas() {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/vagas/", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+      const data = await response.json();
+
+      content.innerHTML = "<h1>Vagas criadas por você</h1>";
+
+      if (data.results?.length) {
+        data.results.forEach((vaga) => {
+          const vagaHTML = `
+            <div class="box-vaga">
+              <div class="vaga">
+                <p><strong>Código:</strong> ${vaga.id}</p>
+                <p><strong>${vaga.nome_cargo}</strong></p>
+                <p><strong>Data:</strong> ${new Date(vaga.data_solicitacao).toLocaleDateString()}</p>
+              </div>
+
+              <div class="box-descricao">
+                <div class="box-descricao-text">
+                  <hr />
+                  <p class="status-andamento-ab">${vaga.status}</p>
+                  <div><strong>Número de vagas:</strong> ${vaga.quantidade}</div>
+                  <div><strong>Tipo de contrato:</strong> ${vaga.tipo_contrato}</div>
+                  <div><strong>Modalidade:</strong> ${vaga.modalidade}</div>
+                  <div><strong>Prioridade:</strong> ${vaga.prioridade}</div>
+                  <div><strong>Observações:</strong> ${vaga.observacao || "Nenhuma"}</div>
+                </div>
+              </div>
+              <div class="resultado">
+                <button class="resultados-btn">Resultados</button>
+              </div>
+            </div>
+          `;
+          content.insertAdjacentHTML("beforeend", vagaHTML);
+        });
+      } else {
+        content.innerHTML += "<p>Nenhuma vaga encontrada :(</p>";
+      }
+    } catch (error) {
+      console.error("Erro ao carregar vagas:", error);
+      alert("Erro ao carregar as vagas. Tente novamente mais tarde.");
+    }
+  }
+
+  //Chama o carregamento inicial
+  await carregarVagas();
+
+  //Função de busca
+  function realizarBusca(termo) {
     const termoLimpo = termo.trim().toLowerCase();
-    const container = contentContainers[containerIndex];
-    const vagas = container.querySelectorAll(".vaga");
-    const mensagem = container.querySelector(".mensagem-nenhuma-vaga");
+    const vagas = content.querySelectorAll(".vaga");
     let encontrouAlguma = false;
 
     vagas.forEach((vaga) => {
       const texto = vaga.innerText.toLowerCase();
-      if (termoLimpo === "" || texto.includes(termoLimpo)) {
-        vaga.style.display = "block";
+      const box = vaga.closest(".box-vaga");
+      if (texto.includes(termoLimpo) || termoLimpo === "") {
+        box.style.display = "block";
         encontrouAlguma = true;
       } else {
-        vaga.style.display = "none";
+        box.style.display = "none";
       }
     });
 
-    mensagem.style.display = encontrouAlguma ? "none" : "block";
+    // Se não encontrar nada
+    let msg = content.querySelector(".mensagem-nenhuma-vaga");
+    if (!msg) {
+      msg = document.createElement("p");
+      msg.classList.add("mensagem-nenhuma-vaga");
+      msg.style.color = "#fff";
+      msg.style.fontStyle = "italic";
+      msg.textContent = "Nenhuma vaga encontrada :(";
+      content.appendChild(msg);
+    }
+    msg.style.display = encontrouAlguma ? "none" : "block";
   }
 
-  searchButtons.forEach((btn, i) => {
-    btn.addEventListener("click", function (event) {
-      event.preventDefault();
-      const termo = searchInputs[i].value;
-      realizarBusca(termo, i);
-    });
+  // Evento de busca
+  searchButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    realizarBusca(searchInput.value);
   });
-
-  searchInputs.forEach((input, i) => {
-    input.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        realizarBusca(input.value, i);
-      }
-    });
-
-    input.addEventListener("input", function () {
-      realizarBusca(input.value, i);
-    });
-  });
-});
-
-// Clique em vaga para abrir a descrição
-document.addEventListener("DOMContentLoaded", function () {
-  const vagas = document.querySelectorAll(".vaga");
-
-  vagas.forEach((vaga) => {
-    vaga.addEventListener("click", () => {
-      const descricao = vaga.nextElementSibling;
-      const resultado = descricao?.nextElementSibling;
-
-      if (descricao && descricao.classList.contains("box-descricao")) {
-        const visivel = descricao.style.display === "block";
-
-        descricao.style.display = visivel ? "none" : "block";
-        if (resultado && resultado.classList.contains("resultado")) {
-          resultado.style.display = visivel ? "none" : "block";
-        }
-
-        // Alterna a visibilidade
-        descricao.style.display = visivel ? "none" : "block";
-
-        // Alterna a classe 'aberta' na vaga
-        vaga.classList.toggle("aberta", !visivel);
-      }
-    });
-  });
-});
-// Vaga botão (provavelmente será alterado)
-document.addEventListener("DOMContentLoaded", function () {
-  const telaUsuario = document.querySelector(".tela-usuario");
-  const telaResultados = document.querySelector(".resultadogs");
-  const telaSolicitarVaga = document.querySelector(".svagaGestor");
-
-  const vagas = document.querySelectorAll(".vaga");
-  const btnResultados = document.getElementById("resultados");
-
-  const linksHome = document.querySelectorAll('a[href="#home"]');
-  const linksVaga = document.querySelectorAll('a[href="#vaga"]');
-
-  function esconderTelas() {
-    telaUsuario.style.display = "none";
-    telaResultados.style.display = "none";
-    telaSolicitarVaga.style.display = "none";
-  }
-
-  // Inicial: mostrar apenas telaUsuario
-  esconderTelas();
-  telaUsuario.style.display = "block";
-
-  // Clique em Resultados
-  if (btnResultados) {
-    btnResultados.addEventListener("click", () => {
-      esconderTelas();
-      telaResultados.style.display = "block";
-    });
-  }
-// Clique em "Solicitar Vaga"
-  linksVaga.forEach((link) => {
-    link.addEventListener("click", (e) => {
+  searchInput.addEventListener("input", () => realizarBusca(searchInput.value));
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
       e.preventDefault();
-      esconderTelas();
-      telaSolicitarVaga.style.display = "block";
-    });
+      realizarBusca(searchInput.value);
+    }
   });
 
-  // Clique em "Início"
-  linksHome.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      esconderTelas();
-      telaUsuario.style.display = "block";
-    });
+  // Delegação de eventos (abrir/fechar descrição)
+  content.addEventListener("click", (e) => {
+    const vaga = e.target.closest(".vaga");
+    if (!vaga) return;
+
+    const descricao = vaga.nextElementSibling;
+    const resultado = descricao?.nextElementSibling;
+
+    vaga.classList.toggle("aberta");
+    descricao?.classList.toggle("aberta");
+    resultado?.classList.toggle("visivel");
   });
 });

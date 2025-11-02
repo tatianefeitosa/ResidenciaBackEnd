@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
           localStorage.setItem("refresh_token", data.refresh);
         }
 
+        localStorage.setItem("tipo_usuario", tipoUsuario);
+
         console.log("Login bem-sucedido:", data);
         alert("Login realizado com sucesso!");
         // Exemplo: redirecionar para a página do tipo de usuário

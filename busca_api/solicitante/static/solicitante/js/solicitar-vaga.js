@@ -94,6 +94,14 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Vaga criada com sucesso!");
       form.reset();
 
+      const tipoUsuario = localStorage.getItem("tipo_usuario");
+
+        if (tipoUsuario === "administracao") {
+          window.location.href = "/administracao/";
+        } else {
+          window.location.href = "/solicitante/";
+        }
+
     } catch (err) {
       console.error("Erro na requisição:", err);
       alert("Erro de conexão com o servidor.");

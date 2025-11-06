@@ -63,7 +63,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
-    BASE_DIR.parent / "static",       # arquivos globais do projeto
+    BASE_DIR / "static",   # Corrigido: a pasta static está dentro de busca_api
 ]
 
 MIDDLEWARE = [

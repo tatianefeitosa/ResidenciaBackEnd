@@ -77,9 +77,11 @@ h1 {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
+
 .vaga:hover:not(.aberta) {
   transform: scale(1.02);
 }
+
 .vaga.aberta {
   margin-bottom: 0px;
   border-bottom-left-radius: 0;
@@ -87,18 +89,9 @@ h1 {
   padding: 1rem;
   text-align: left;
 }
+
 /*DESCRIÇÃO*/
-.box-descricao {
-  background-color: white;
-  margin-top: 0px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
-  cursor: pointer; /* Muda o cursor para uma mãozinha ao passar o mouse */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-}
+
 .box-descricao-text {
   padding: 1rem;
   text-align: left;
@@ -133,7 +126,6 @@ hr {
 .resultado button {
   background-color: #dadada;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-weight: bold;
   border: none;
   width: 130px; /* Define uma largura fixa para o botão */
   margin: 1px;
@@ -144,4 +136,27 @@ hr {
 }
 .resultado button:hover {
   background-color: #fcfb30;
+}
+
+.box-descricao {
+  background-color: white;
+  margin: 0 20px 20px 20px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  display: none;
+}
+
+.box-descricao.aberta {
+  display: block;
+}
+
+.resultado {
+  text-align: right;
+  margin: 0 20px 20px 20px;
+  display: none;
+}
+
+.resultado.visivel {
+  display: block;
 }

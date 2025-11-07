@@ -11,11 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const setor = document.getElementById("setor").value.trim();
     const cargo = document.getElementById("cargo").value.trim();
 
-    if (!nome || !email || !senha || !tipo || !setor || !cargo) {
+    if (!nome || !email || !password || !tipo || !setor || !cargo) {
       alert("Preencha todos os campos!");
       return;
     }
 
+    console.log(nome, email, password, tipo, setor, cargo);
     try {
       const response = await fetch("http://127.0.0.1:8000/api/usuarios/register/", {
         method: "POST",
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
         alert("Usuário registrado com sucesso!");
 
         if (data.access) {
@@ -42,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("refresh_token", data.refresh);
         }
 
-        if (tipo === "administracao") {
+        if (tipo === "administrador") {
           window.location.href = "/administracao/";
         } else {
           window.location.href = "/solicitante/";

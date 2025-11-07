@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -21,7 +22,29 @@
     <!---VAGAS SOLICITADAS-->
 
     <!--NAVBAR-->
-    <div id="navbar-admin"></div>
+        <div class="navbar-admin">
+  <div class="logo">
+      <img src="{% static 'img/logoGraQ.png' %}" alt="Logo da BBTS" height="35px" />
+  </div>
+  <div class="nav-right">
+    <div class="links">
+        <a href="{% url 'admin_inicio' %}" class="ativo">Início</a>
+      <a href="{% url 'admin_vagas' %}">Vagas Solicitadas</a>
+    </div>
+    <div class="user-menu">
+      <div class="user-icon">
+        <span class="material-symbols-outlined">account_circle</span>
+      </div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <p><strong>ID:</strong> 89374083</p>
+        <p><strong>Nome:</strong> Laís Azevedo</p>
+        <p><strong>Setor:</strong> Gestão de Talentos</p>
+        <p><strong>Cargo:</strong> Recrutador</p>
+        <button class="logout-btn">Sair da Conta</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div class="svagaAdm">
       <div class="sfundo">

@@ -24,7 +24,7 @@ Consulte o Notion para obter as credenciais do banco remoto.
     source venv/bin/activate  # Mac
 
 
-4. Instalar as dependências:
+4. Instalar as dependências (no mesmo nível que o venv):
     ```bash
     pip install -r requirements.txt
 

@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import JSONField
+
 from vagas.models import HabilidadeTecnica, HabilidadeInterpessoal, Diploma, Certificacao, Idioma, Empresa, Localizacao, Vaga
 
 
@@ -17,6 +19,9 @@ class Candidato(models.Model):
     data_nascimento = models.DateField(blank=True, null=True)
     resumo_profissional = models.TextField(blank=True, null=True) # vai ser gerado
     compatibilidade = models.FloatField(default=0.0)  # porcentagem 0–100%
+    
+    source_id_hash = models.CharField(max_length=128, unique=True, null=True, blank=True)
+    raw_result = JSONField(null=True, blank=True) # guarda JSON do scraping
 
     # chave estrangeira de vaga
     vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE, related_name='candidatos')

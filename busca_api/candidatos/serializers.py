@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.db.models import JSONField
+
 from .models import (
     Candidato, CandidatoEmail, CandidatoTelefone, CandidatoFonteBusca,
     CandidatoHabilidadeTecnica, CandidatoHabilidadeInterpessoal,
@@ -162,6 +164,9 @@ class CandidatoCreateSerializer(serializers.ModelSerializer):
     Serializer para receber os dados do scraping (ou criação manual)
     com estrutura aninhada e campos compostos.
     """
+    source_id_hash = serializers.CharField(required=False),
+    raw_result = serializers.JSONField(required=False),
+
     emails = CandidatoEmailSerializer(many=True, required=False, write_only=True)
     telefones = CandidatoTelefoneSerializer(many=True, required=False, write_only=True)
     fontes_busca = CandidatoFonteBuscaSerializer(many=True, required=False, write_only=True)
@@ -177,10 +182,10 @@ class CandidatoCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Candidato
         fields = [
-            'nome_candidato', 'data_nascimento', 'resumo_profissional', 'vaga'
+            'nome_candidato', 'data_nascimento', 'resumo_profissional', 'vaga',
             'emails', 'telefones', 'fontes_busca',
             'habilidades_tecnicas', 'habilidades_interpessoais',
-            'diplomas', 'certificacoes', 'idiomas', 'empresas', 'localizacoes'
+            'diplomas', 'certificacoes', 'idiomas', 'empresas', 'localizacoes', 'source_id_hash', 'raw_result'
         ]
 
     def create(self, validated_data):

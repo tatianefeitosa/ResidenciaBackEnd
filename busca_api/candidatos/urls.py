@@ -6,6 +6,6 @@ from .views import (
 )
 
 urlpatterns = [
-    #path('candidatos/', CandidatoCreateView.as_view(), name='candidato-create'),
-    #path('candidatos/lote/', CandidatoBatchCreateView.as_view(), name='candidato-batch-create'),
+    path('candidatos/', CandidatoCreateView.as_view(), name='candidato-create'),
+    path('candidatos/lote/', CandidatoBatchCreateView.as_view(), name='candidato-batch-create'),
 ]

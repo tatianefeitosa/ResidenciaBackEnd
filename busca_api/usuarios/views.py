@@ -1,5 +1,6 @@
 
 
+from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,6 +10,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Usuario
 from .serializers import RegisterSerializer, LoginSerializer, UsuarioSerializer
 
+
+# Tela HTML
+def login_page(request):
+    return render(request, 'usuario/index.html')
+
+def register_page(request):
+    return render(request, 'usuario/register.html')
 
 # Registro de usuário
 class RegisterView(generics.CreateAPIView):

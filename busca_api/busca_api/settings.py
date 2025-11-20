@@ -15,9 +15,11 @@ from datetime import timedelta
 import os
 from dotenv import load_dotenv
 
+load_dotenv()  # carrega variáveis do .env
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -51,12 +53,18 @@ INSTALLED_APPS = [
     'vagas',
     'candidatos',
     'utils',
+    'solicitante',
+    'administracao',
 
 ]
 
 # Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",   # Corrigido: a pasta static está dentro de busca_api
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,7 +84,7 @@ ROOT_URLCONF = 'busca_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,7 +103,6 @@ WSGI_APPLICATION = 'busca_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-load_dotenv()  # carrega variáveis do .env
 
 # Banco de dados - usa variáveis do .env
 DATABASES = {
@@ -145,10 +152,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+# BASE_DIR = Path(__file__).resolve().parent.parent  # já está apontando para busca_api
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

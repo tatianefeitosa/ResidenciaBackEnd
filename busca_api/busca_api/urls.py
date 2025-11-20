@@ -15,8 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include  # include adicionado para incluir URLs de apps
+from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,13 +26,19 @@ urlpatterns = [
     # usuários
     path('api/usuarios/', include('usuarios.urls')),
 
+    # solicitante
+    path('solicitante/', include('solicitante.urls')),
+
     # vagas
     path('api/', include('vagas.urls')),
-    
-    # candidatos
-    #path('api/candidatos/', include('candidatos.urls')),
 
+    # administração
+    path('administracao/', include('administracao.urls')),  
+    
     # endpoints do drf-spectacular
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Início</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logoPeq.png' %}" />
+    <!--Favicon-->
+     <link rel="stylesheet" href="{% static 'css/styles-globais.css' %}">
+    <!--CSS GLOBAL-->
+    <link rel="stylesheet" href="{% static 'css/admin-inicio.css' %}">
+    <!--CSS ADMINISTRADOR INÍCIO-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+       <script src="{% static 'js/scripts-globais.js' %}" defer></script>
+        <script src="{% static 'js/admin-inicio.js' %}" defer></script>
+  </head>
+  <body>
+
+    <!--NAVBAR-->
+    <div class="navbar-admin">
+  <div class="logo">
+      <img src="{% static 'img/logoGraQ.png' %}" alt="Logo da BBTS" height="35px" />
+  </div>
+  <div class="nav-right">
+    <div class="links">
+        <a href="{% url 'admin_inicio' %}" class="ativo">Início</a>
+      <a href="{% url 'admin_vagas' %}">Vagas Solicitadas</a>
+    </div>
+    <div class="user-menu">
+      <div class="user-icon">
+        <span class="material-symbols-outlined">account_circle</span>
+      </div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <p><strong>ID:</strong> 89374083</p>
+        <p><strong>Nome:</strong> Laís Azevedo</p>
+        <p><strong>Setor:</strong> Gestão de Talentos</p>
+        <p><strong>Cargo:</strong> Recrutador</p>
+        <button class="logout-btn">Sair da Conta</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!--TELA ADMIN-->
+    <div class="sfundo">
+      <div class="search">
+        <label for="site-search" class="visually-hidden"></label>
+        <input
+          type="search"
+          id="site-search"
+          name="q"
+          placeholder="Pesquisar vaga"
+        />
+        <button type="submit">
+             <img src="{% static 'img/search.svg' %}" alt="Buscar" />
+        </button>
+      </div>
+    </div>
+    
+   <main class="content">
+      <h1>Vagas em processo</h1>
+      <!-- Vagas geradas dinamicamente aqui -->
+    </main>
+  </body>
+</html>

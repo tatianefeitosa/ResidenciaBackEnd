@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logoPeq.png' %}">
+    <link rel="stylesheet" href="{% static 'css/styles-globais.css' %}">
+    <link rel="stylesheet" href="{% static 'solicitante/css/solicitante-inicio.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="{% static 'js/scripts-globais.js' %}" defer></script>
+    <script src="{% static 'solicitante/js/solicitante-inicio.js' %}" defer></script>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <div class="navbar-solicitante">
+      <div class="logo">
+        <img src="{% static 'img/logoGraQ.png' %}" alt="Logo da BBTS" height="35px" />
+      </div>
+      <div class="nav-right">
+        <div class="links">
+          <a href="{% url 'solicitante_home' %}" class="ativo">Início</a>
+          <a href="{% url 'solicitar_vaga' %}">Solicitar vaga</a>
+        </div>
+        <div class="user-menu">
+          <div class="user-icon">
+            <span class="material-symbols-outlined">account_circle</span>
+          </div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <p><strong>ID:</strong> 74561329</p>
+            <p><strong>Nome:</strong> Alberto Nogueira</p>
+            <p><strong>Setor:</strong> Desenvolvimento de Software</p>
+            <p><strong>Cargo:</strong> Gestor de Projetos</p>
+            <button class="logout-btn">Sair da Conta</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <div class="sfundo">
+      <div class="search">
+        <input type="search" id="site-search-usuario" placeholder="Pesquisar vaga..." />
+        <button type="submit">
+          <img src="{% static 'img/search.svg' %}" alt="Buscar" />
+        </button>
+      </div>
+    </div>
+
+    <main class="content">
+      <h1>Vagas criadas por você</h1>
+      <!-- Vagas geradas dinamicamente aqui -->
+    </main>
+  </body>
+</html>

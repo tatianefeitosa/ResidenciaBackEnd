@@ -1,137 +1,92 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resultado</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../img/logoPeq.png" />
-    <!--Favicon-->
-    <link rel="stylesheet" href="../css/styles-globais.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logoPeq.png' %}" />
     <!--CSS GLOBAL-->
-    <link rel="stylesheet" href="../css/admin-candidatos.css" />
-    <!--CSS ADMINISTRADOR CANDIDATOS-->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <script src="../js/scripts-globais.js"></script>
+    <link rel="stylesheet" href="{% static 'candidatos/css/styles-globais.css' %}" />
+    <link rel="stylesheet" href="{% static 'candidatos/css/admin-candidatos.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="{% static 'candidatos/js/scripts-globais.js' %}"></script>
   </head>
 <body>
-    <!--NAVBAR-->
-    <div id="navbar-admin"></div>
-
-    <!--RESULTADOS-->
-    <div class="resultadoadm">
-      
-      <div class="barra-edi">
-        <div class="barra-edi-icon">
-          <img src="/img/draft.svg" alt="" />
-          <p>Arquivo</p>
-          <img src="/img/arrow_baixo.svg" alt="" />
-        </div>
-        <div class="barra-edi-icon">
-          <img src="/img/file_export.svg" alt="" />
-          <p>Exportar</p>
-          <img src="/img/arrow_baixo.svg" alt="" />
-        </div>
-        <div class="barra-edi-icon">
-          <img src="/img/save.svg" alt="" />
-          <p>Salvar</p>
-        </div>
-        <div class="barra-edi-icon">
-          <img src="/img/edit.svg" alt="" />
-          <p>Editar</p>
-        </div>
+  <!--NAVBAR-->
+          <div class="navbar-admin">
+  <div class="logo">
+      <img src="{% static 'img/logoGraQ.png' %}" alt="Logo da BBTS" height="35px" />
+  </div>
+  <div class="nav-right">
+    <div class="links">
+        <a href="{% url 'admin_inicio' %}" class="ativo">Início</a>
+      <a href="{% url 'admin_vagas' %}">Vagas Solicitadas</a>
+    </div>
+    <div class="user-menu">
+      <div class="user-icon">
+        <span class="material-symbols-outlined">account_circle</span>
       </div>
-      <div class="acao-voltar">
-        <button onclick="window.history.back()">← Voltar</button>
-      </div>
-
-      <h2 class="h2-dash">Ranking de Perfis</h2>
-      <div class="form-horizontal">
-        <div class="quad">
-          <p class="perfil-nome">Maria Oliveira</p>
-          <div class="info-container">
-            <div class="info-box accepted">92% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Carlos Souza</p>
-          <div class="info-container">
-            <div class="info-box accepted">88% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Fernanda Alves</p>
-          <div class="info-container">
-            <div class="info-box accepted">84% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Rafael Costa</p>
-          <div class="info-container">
-            <div class="info-box">80% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Juliana Mendes</p>
-          <div class="info-container">
-            <div class="info-box">76% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Lucas Pereira</p>
-          <div class="info-container">
-            <div class="info-box">72% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Patrícia Lima</p>
-          <div class="info-container">
-            <div class="info-box">68% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Bruno Ferreira</p>
-          <div class="info-container">
-            <div class="info-box">64% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Camila Rocha</p>
-          <div class="info-container">
-            <div class="info-box">60% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Diego Martins</p>
-          <div class="info-container">
-            <div class="info-box rejected">56% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
-        <div class="quad">
-          <p class="perfil-nome">Sofia Nunes</p>
-          <div class="info-container">
-            <div class="info-box rejected">52% dos Requisitos</div>
-            <div class="info-box-mais">Veja mais</div>
-          </div>
-        </div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <p><strong>ID:</strong> 89374083</p>
+        <p><strong>Nome:</strong> Laís Azevedo</p>
+        <p><strong>Setor:</strong> Gestão de Talentos</p>
+        <p><strong>Cargo:</strong> Recrutador</p>
+        <button class="logout-btn">Sair da Conta</button>
       </div>
     </div>
-        <script src="/js/admin-candidatos.js"></script>
-  </body>
+  </div>
+</div>
+
+  <!--RESULTADOS-->
+  <div class="resultadoadm">
+    
+    <div class="barra-edi">
+      <div class="barra-edi-icon">
+        <img src="{% static 'candidatos/img/draft.svg' %}" alt="" />
+        <p>Arquivo</p>
+        <img src="{% static 'candidatos/img/arrow_baixo.svg' %}" alt="" />
+      </div>
+      <div class="barra-edi-icon">
+        <img src="{% static 'candidatos/img/file_export.svg' %}" alt="" />
+        <p>Exportar</p>
+        <img src="{% static 'candidatos/img/arrow_baixo.svg' %}" alt="" />
+      </div>
+      <div class="barra-edi-icon">
+        <img src="{% static 'candidatos/img/save.svg' %}" alt="" />
+        <p>Salvar</p>
+      </div>
+      <div class="barra-edi-icon">
+        <img src="{% static 'candidatos/img/edit.svg' %}" alt="" />
+        <p>Editar</p>
+      </div>
+    </div>
+
+    <div class="acao-voltar">
+      <button onclick="window.history.back()">← Voltar</button>
+    </div>
+
+    <h2 class="h2-dash">Ranking de Perfis</h2>
+    <div class="form-horizontal">
+      {% for candidato in candidatos %}
+      <div class="quad">
+        <p class="perfil-nome">{{ candidato.nome }}</p>
+        <div class="info-container">
+          <div class="info-box {% if candidato.porcentagem >= 80 %}accepted{% elif candidato.porcentagem >= 60 %}middle{% else %}rejected{% endif %}">
+            {{ candidato.porcentagem }}% dos Requisitos
+          </div>
+          <div class="info-box-mais">
+            <a href="{% url 'candidato-detalhes' vaga.id candidato.id %}">Veja mais</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>Nenhum candidato encontrado para esta vaga.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script src="{% static 'candidatos/js/admin-candidatos.js' %}"></script>
+</body>
 </html>

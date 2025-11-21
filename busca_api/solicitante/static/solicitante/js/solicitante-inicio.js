@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const vagaHTML = `
             <div class="box-vaga">
               <div class="vaga">
-                <p><strong>Código:</strong> ${vaga.id}</p>
+                <p><strong>${vaga.id}</strong></p>
                 <p><strong>${vaga.nome_cargo}</strong></p>
                 <p><strong>Data:</strong> ${new Date(vaga.data_solicitacao).toLocaleDateString()}</p>
               </div>
@@ -110,8 +110,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 
-  // Delegação de eventos (abrir/fechar descrição)
+  // Delegação de eventos (abrir/fechar descrição e botão de resultados)
   content.addEventListener("click", (e) => {
+    // Clique no botão de resultados
+    if (e.target.classList.contains("resultados-btn")) {
+      const vagaBox = e.target.closest(".box-vaga");
+      const vagaId = vagaBox.querySelector(".vaga p strong").innerText; 
+      window.location.href = `/candidatos/resultado/${vagaId}/`;
+      return; // Evita executar o toggle
+    }
+
+    // Clique na vaga para abrir/fechar box de descrição
     const vaga = e.target.closest(".vaga");
     if (!vaga) return;
 

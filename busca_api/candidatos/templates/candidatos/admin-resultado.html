@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,9 +7,8 @@
     <title>Resultado</title>
     <link rel="shortcut icon" type="image/x-icon" href="../img/logoPeq.png" />
     <!--Favicon-->
-    <link rel="stylesheet" href="../css/styles-globais.css" />
-    <!--CSS GLOBAL-->
-    <link rel="stylesheet" href="../css/admin-resultado.css" />
+   <link rel="stylesheet" href="{% static 'candidatos/css/styles-globais.css' %}" />
+    <link rel="stylesheet" href="{% static 'candidatos/css/admin-resultado.css' %}" />
     <!--CSS ADMINISTRADOR RESULTADO-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!--CHART.JS (Gráficos)-->
@@ -21,35 +21,57 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <script src="../js/scripts-globais.js"></script>
-    <script src="../js/admin-resultado.js"></script>
-    <script src="../js/admin-candidatos.js"></script>
+    <script src="{% static 'candidatos/js/scripts-globais.js' %}"></script>
+    <script src="{% static 'candidatos/js/admin-resultado.js' %}"></script>
+    <script src="{% static 'candidatos/js/admin-candidatos.js' %}"></script>
   </head>
   <body>
     <!--RESULTADOS-->
 
     <!--NAVBAR-->
-    <div id="navbar-admin"></div>
+        <div class="navbar-admin">
+  <div class="logo">
+      <img src="{% static 'img/logoGraQ.png' %}" alt="Logo da BBTS" height="35px" />
+  </div>
+  <div class="nav-right">
+    <div class="links">
+        <a href="{% url 'admin_inicio' %}" class="ativo">Início</a>
+      <a href="{% url 'admin_vagas' %}">Vagas Solicitadas</a>
+    </div>
+    <div class="user-menu">
+      <div class="user-icon">
+        <span class="material-symbols-outlined">account_circle</span>
+      </div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <p><strong>ID:</strong> 89374083</p>
+        <p><strong>Nome:</strong> Laís Azevedo</p>
+        <p><strong>Setor:</strong> Gestão de Talentos</p>
+        <p><strong>Cargo:</strong> Recrutador</p>
+        <button class="logout-btn">Sair da Conta</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div class="resultadoadm">
 
       <div class="barra-edi">
         <div class="barra-edi-icon">
-          <img src="/img/draft.svg" alt="" />
+          <img src="{% static 'candidatos/img/draft.svg' %}" alt="" />
           <p>Arquivo</p>
-          <img src="/img/arrow_baixo.svg" alt="" />
+          <img src="{% static 'candidatos/img/arrow_baixo.svg' %}" alt="" />
         </div>
         <div class="barra-edi-icon">
-          <img src="/img/file_export.svg" alt="" />
+          <img src="{% static 'candidatos/img/file_export.svg' %}" alt="" />
           <p>Exportar</p>
-          <img src="/img/arrow_baixo.svg" alt="" />
+          <img src="{% static 'candidatos/img/arrow_baixo.svg' %}" alt="" />
         </div>
         <div class="barra-edi-icon">
-          <img src="/img/save.svg" alt="" />
+          <img src="{% static 'candidatos/img/save.svg' %}" alt="" />
           <p>Salvar</p>
         </div>
         <div class="barra-edi-icon">
-          <img src="/img/edit.svg" alt="" />
+          <img src="{% static 'candidatos/img/edit.svg' %}" alt="" />
           <p>Editar</p>
         </div>
       </div>

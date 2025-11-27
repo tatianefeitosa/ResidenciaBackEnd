@@ -1,4 +1,4 @@
-# vagas/scraping/github_scraper_html.py
+'''
 import requests
 from bs4 import BeautifulSoup
 import re

@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from drf_spectacular.utils import extend_schema, OpenApiParameter
-from vagas.tasks import scraping_task
+#from vagas.tasks import scraping_task
 
 # Listar e criar vagas
 class VagaListCreateView(generics.ListCreateAPIView):
@@ -101,7 +101,7 @@ class VagaDetailView(generics.RetrieveAPIView):
         return Vaga.objects.none()
 
 
-class IniciarScrapingGithub(APIView):
+'''class IniciarScrapingGithub(APIView):
     """
     Endpoint responsável por disparar a task Celery que faz o scraping.
     """
@@ -145,3 +145,4 @@ class IniciarScrapingGithub(APIView):
             },
             status=status.HTTP_200_OK,
         )
+'''

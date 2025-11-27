@@ -1,4 +1,4 @@
-import os
+'''import os
 import hashlib
 import requests
 from django.db import transaction

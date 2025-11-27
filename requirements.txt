@@ -3,7 +3,6 @@ asgiref==3.10.0
 attrs==25.4.0
 beautifulsoup4==4.14.2
 billiard==4.2.3
-celery==5.5.3
 certifi==2025.11.12
 charset-normalizer==3.4.4
 click==8.3.1
@@ -33,7 +32,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
 pytz==2025.2
 PyYAML==6.0.3
-redis==7.1.0
 referencing==0.36.2
 requests==2.32.5
 rpds-py==0.27.1

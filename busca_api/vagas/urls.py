@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import VagaDetailView, VagaListCreateView, VagasPendentesView, DecisaoVagaView, IniciarScrapingGithub
+from .views import VagaDetailView, VagaListCreateView, VagasPendentesView, DecisaoVagaView
 
 urlpatterns = [
     path('vagas/', VagaListCreateView.as_view(), name='vaga-list-create'), # solicitante cria e lista suas vagas, admin lista todas as vagas já criadas
@@ -7,7 +7,7 @@ urlpatterns = [
     path('vagas/pendentes/', VagasPendentesView.as_view(), name='vagas-pendentes'), # lista vagas pendentes (somente admin)
     path('vagas/decisao/', DecisaoVagaView.as_view(), name='decisao-vaga'), # cria decisão de vaga, aprovar ou rejeitar + justificativa (somente admin)
 
-    path("scraping/github/", IniciarScrapingGithub.as_view(), name="scraping-github"),
+    #path("scraping/github/", IniciarScrapingGithub.as_view(), name="scraping-github"),
 ]
 
 # Spetacular (Swagger UI) para testing: http://127.0.0.1:8000/api/docs/

@@ -135,7 +135,6 @@ class CandidatoReadSerializer(serializers.ModelSerializer):
     emails = CandidatoEmailSerializer(many=True, read_only=True)
     telefones = CandidatoTelefoneSerializer(many=True, read_only=True)
     fontes_busca = CandidatoFonteBuscaSerializer(many=True, read_only=True)
-
     habilidades_tecnicas = CandidatoHabilidadeTecnicaSerializer(many=True, read_only=True)
     habilidades_interpessoais = CandidatoHabilidadeInterpessoalSerializer(many=True, read_only=True)
     diplomas = CandidatoDiplomaSerializer(many=True, read_only=True)
@@ -144,15 +143,20 @@ class CandidatoReadSerializer(serializers.ModelSerializer):
     empresas = CandidatoEmpresaSerializer(many=True, read_only=True)
     localizacoes = CandidatoLocalizacaoSerializer(many=True, read_only=True)
 
+    # Novos campos GitHub
+    bio = serializers.CharField(read_only=True)
+    company = serializers.CharField(read_only=True)
+    location = serializers.CharField(read_only=True)
+    repos = serializers.ListField(child=serializers.CharField(), read_only=True)
 
     class Meta:
         model = Candidato
         fields = [
             'id', 'nome_candidato', 'data_nascimento', 'resumo_profissional',
-            'compatibilidade', 'vaga',
-            'emails', 'telefones', 'fontes_busca',
+            'compatibilidade', 'vaga', 'emails', 'telefones', 'fontes_busca',
             'habilidades_tecnicas', 'habilidades_interpessoais',
-            'diplomas', 'certificacoes', 'idiomas', 'empresas', 'localizacoes'
+            'diplomas', 'certificacoes', 'idiomas', 'empresas', 'localizacoes',
+            'bio', 'company', 'location', 'repos'
         ]
 
 
@@ -164,8 +168,8 @@ class CandidatoCreateSerializer(serializers.ModelSerializer):
     Serializer para receber os dados do scraping (ou criação manual)
     com estrutura aninhada e campos compostos.
     """
-    source_id_hash = serializers.CharField(required=False),
-    raw_result = serializers.JSONField(required=False),
+    source_id_hash = serializers.CharField(required=False)
+    raw_result = serializers.JSONField(required=False)
 
     emails = CandidatoEmailSerializer(many=True, required=False, write_only=True)
     telefones = CandidatoTelefoneSerializer(many=True, required=False, write_only=True)

@@ -1,150 +1,132 @@
-import hashlib
+# vagas/scraping/github_scraper_html.py
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
-from django.utils import timezone
-from candidatos.models import Candidato
+import re
+import time
 
-GITHUB_API = "https://api.github.com"
-TIMEOUT = 10
+BASE_URL = "https://github.com"
 
+def normalize_text(text):
+    if not text:
+        return ""
+    return text.strip().lower()
 
-def github_request(url, params=None):
+def extract_emails(text):
+    return re.findall(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", text)
+
+def extract_phones(text):
+    return re.findall(r"\+?\d[\d\s()-]{7,}\d", text)
+
+def scrape_profile(url, requisitos):
     """
-    Wrapper inteligente para evitar bloqueios, limites e adicionar timeout.
+    Scrape um perfil do GitHub e calcula compatibilidade baseada nos requisitos.
     """
-    headers = {
-        "Accept": "application/vnd.github+json",
-        "User-Agent": "BuscaCandidatoScraper"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # Nome e bio
+    nome_tag = soup.select_one("span.p-name.vcard-fullname")
+    nome = nome_tag.get_text(strip=True) if nome_tag else "Sem Nome"
+
+    bio_tag = soup.select_one("div.p-note")
+    resumo_profissional = bio_tag.get_text(strip=True) if bio_tag else ""
+
+    # Localização
+    loc_tag = soup.select_one("li[itemprop='homeLocation']")
+    localizacao = loc_tag.get_text(strip=True) if loc_tag else ""
+
+    # Empresas
+    empresa_tag = soup.select_one("li[itemprop='worksFor']")
+    empresas = [empresa_tag.get_text(strip=True)] if empresa_tag else []
+
+    # URLs e fonte
+    fonte_busca = BASE_URL
+    url_perfil = url
+
+    # Extração simples de skills, idiomas, diplomas, certificações (tentativa via bio e readme)
+    habilidades_tecnicas = []
+    habilidades_interpessoais = []
+    diplomas = []
+    certificacoes = []
+    idiomas = []
+
+    # Pegando readme do usuário (se existir)
+    readme_url = f"{url}.atom"  # feed público do usuário
+    try:
+        readme_resp = requests.get(readme_url, headers=headers)
+        if readme_resp.ok:
+            readme_text = readme_resp.text
+        else:
+            readme_text = ""
+    except:
+        readme_text = ""
+
+    combined_text = " ".join([resumo_profissional, readme_text, localizacao, " ".join(empresas)])
+
+    # Emails e telefones
+    emails = extract_emails(combined_text)
+    telefones = extract_phones(combined_text)
+
+    # Compatibilidade simples
+    compatibilidade = 0
+    for req in requisitos:
+        req_norm = normalize_text(req)
+        if req_norm in normalize_text(combined_text):
+            compatibilidade += 1
+
+    candidato = {
+        "nome": nome,
+        "resumo_profissional": resumo_profissional,
+        "habilidades_tecnicas": habilidades_tecnicas,
+        "habilidades_interpessoais": habilidades_interpessoais,
+        "diplomas": diplomas,
+        "certificacoes": certificacoes,
+        "idiomas": idiomas,
+        "empresas": empresas,
+        "localizacoes": [localizacao] if localizacao else [],
+        "emails": emails,
+        "telefones": telefones,
+        "fonte_nome": "GitHub",
+        "url_perfil": url_perfil,
+        "similarity_score": compatibilidade / max(len(requisitos), 1),
+        "raw_result": combined_text,
+        "source_id": url_perfil,
     }
-
-    response = requests.get(url, headers=headers, params=params, timeout=TIMEOUT)
-
-    if response.status_code == 403:
-        raise Exception("Limite da API do GitHub atingido.")
-    if response.status_code not in (200, 201):
-        raise Exception(f"Erro GitHub API ({response.status_code}): {response.text}")
-
-    return response.json()
-
-
-def search_github_users(query, limit=20):
-    """
-    Procura usuários no GitHub com base nos requisitos da vaga.
-    """
-    url = f"{GITHUB_API}/search/users"
-    params = {"q": query, "per_page": limit}
-
-    data = github_request(url, params=params)
-
-    return data.get("items", [])
-
-
-def get_user_details(username):
-    """
-    Coleta informações detalhadas do usuário.
-    """
-    user = github_request(f"{GITHUB_API}/users/{username}")
-
-    repos = github_request(f"{GITHUB_API}/users/{username}/repos")
-
-    repo_info = []
-    languages = []
-
-    for r in repos:
-        repo_info.append({
-            "name": r["name"],
-            "description": r["description"],
-            "topics": r.get("topics", []),
-            "language": r.get("language")
-        })
-        if r.get("language"):
-            languages.append(r["language"])
-
-    df_repos = pd.DataFrame(repo_info)
-
-    return {
-        "user": user,
-        "repos": df_repos.to_dict(orient="records"),
-        "languages": languages
-    }
-
-
-def compute_match_score(requisitos_texto, dados):
-    """
-    Gera um score simples (pode evoluir para TF-IDF ou ML futuramente).
-    """
-    texto = (
-        (dados["user"].get("bio") or "") +
-        " ".join(dados["languages"])
-    ).lower()
-
-    score = 0
-    for req in requisitos_texto:
-        if req.lower() in texto:
-            score += 1
-
-    return score
-
-
-def generate_source_hash(username):
-    """
-    Garante idempotência: candidatos não são duplicados.
-    """
-    return hashlib.sha256(f"github:{username}".encode()).hexdigest()
-
-
-def save_candidate_from_github(vaga, detalhes, score):
-    """
-    Salva/atualiza candidato no banco através do modelo Candidato.
-    """
-    username = detalhes["user"]["login"]
-    hash_id = generate_source_hash(username)
-
-    candidato, created = Candidato.objects.update_or_create(
-        source_id_hash=hash_id,
-        defaults={
-            "vaga": vaga,
-            "nome_candidato": detalhes["user"].get("name") or username,
-            "email_contato": detalhes["user"].get("email"),
-            "origem": "GitHub",
-            "score_afinidade": score,
-            "raw_result": detalhes,
-            "data_atualizacao": timezone.now()
-        }
-    )
 
     return candidato
 
-
-def run_github_scraping(vaga, requisitos_texto):
+def scrape_top_candidatos(vaga, requisitos, top_n=5):
     """
-    Função principal chamada pela task Celery.
+    Faz scraping simples no GitHub por cada requisito da vaga.
+    Retorna os top_n candidatos mais compatíveis.
     """
-    print(f"[GitHub Scraper] Iniciando scraping para a vaga {vaga.id}...")
+    headers = {"User-Agent": "Mozilla/5.0"}
+    candidatos = []
+    seen_profiles = set()
 
-    # 1. Construir query de busca
-    query = " ".join(requisitos_texto)
+    for req in requisitos:
+        search_url = f"{BASE_URL}/search?q={req}&type=users"
+        resp = requests.get(search_url, headers=headers)
+        soup = BeautifulSoup(resp.text, "html.parser")
+        profile_links = soup.select("div.user-list div.d-flex a[href^='/']")  # links de perfis
 
-    usuarios = search_github_users(query)
+        for link in profile_links:
+            profile_url = BASE_URL + link["href"]
+            if profile_url in seen_profiles:
+                continue
+            try:
+                candidato = scrape_profile(profile_url, requisitos)
+                candidatos.append(candidato)
+                seen_profiles.add(profile_url)
+            except Exception as e:
+                print(f"[ERROR] Não foi possível extrair perfil {profile_url}: {e}")
+            if len(candidatos) >= top_n:
+                break
+        if len(candidatos) >= top_n:
+            break
+        time.sleep(1)  # evitar bloqueio GitHub
 
-    candidatos_criados = []
-
-    for u in usuarios:
-        username = u["login"]
-
-        try:
-            detalhes = get_user_details(username)
-
-            score = compute_match_score(requisitos_texto, detalhes)
-
-            candidato = save_candidate_from_github(vaga, detalhes, score)
-
-            candidatos_criados.append(candidato)
-
-        except Exception as e:
-            print(f"Erro ao processar {username}: {str(e)}")
-
-    print(f"[GitHub Scraper] Finalizado. {len(candidatos_criados)} candidatos coletados.")
-
-    return candidatos_criados
+    # Ordena por compatibilidade
+    candidatos = sorted(candidatos, key=lambda x: x["similarity_score"], reverse=True)
+    return candidatos[:top_n]

@@ -9,6 +9,12 @@ from .serializers import VagaSerializer, DecisaoVagaSerializer, VagaDetailSerial
 from .pagination import CustomPageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from vagas.tasks import scraping_task
+
 # Listar e criar vagas
 class VagaListCreateView(generics.ListCreateAPIView):
     serializer_class = VagaSerializer
@@ -93,3 +99,49 @@ class VagaDetailView(generics.RetrieveAPIView):
             return queryset.filter(status='Aprovada')
 
         return Vaga.objects.none()
+
+
+class IniciarScrapingGithub(APIView):
+    """
+    Endpoint responsável por disparar a task Celery que faz o scraping.
+    """
+
+    @extend_schema(
+        summary="Inicia o scraping no GitHub para uma vaga",
+        request={
+        "application/json": {
+            "type": "object",
+            "properties": {"vaga_id": {"type": "integer"}},
+            "required": ["vaga_id"]
+            }
+        },
+        responses={200: dict, 404: dict},
+    )
+    def post(self, request):
+        vaga_id = request.data.get("vaga_id")
+
+        if not vaga_id:
+            return Response(
+                {"erro": "O campo 'vaga_id' é obrigatório."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            vaga = Vaga.objects.get(id=vaga_id)
+        except Vaga.DoesNotExist:
+            return Response(
+                {"erro": f"Vaga com id={vaga_id} não encontrada."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        # dispara task Celery
+        scraping_task.delay(vaga_id)
+
+        return Response(
+            {
+                "mensagem": "Scraping iniciado com sucesso.",
+                "vaga_id": vaga_id,
+                "status": "PROCESSING",
+            },
+            status=status.HTTP_200_OK,
+        )

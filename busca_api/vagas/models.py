@@ -72,6 +72,44 @@ class Vaga(models.Model):
     def __str__(self):
         return f"{self.nome_cargo} ({self.status})"
 
+    
+    def get_all_requirements_as_list(self):
+        requisitos = []
+
+        # Habilidades técnicas
+        requisitos += list(self.vagahabilidadetecnica_set.values_list("habilidade__nome", flat=True))
+
+        # Habilidades interpessoais
+        requisitos += list(self.vagahabilidadeinterpessoal_set.values_list("habilidade__nome", flat=True))
+
+        # Diplomas
+        requisitos += [
+            f"{d.diploma.tipo} {d.diploma.area}"
+            for d in self.vagadiploma_set.select_related("diploma")
+        ]
+
+        # Certificações
+        requisitos += list(self.vagacertificacao_set.values_list("certificacao__nome", flat=True))
+
+        # Idiomas
+        requisitos += [
+            f"{i.idioma.nome} {i.idioma.nivel}"
+            for i in self.vagaidioma_set.select_related("idioma")
+        ]
+
+        # Empresas
+        requisitos += list(self.vagaempresa_set.values_list("empresa__nome", flat=True))
+
+        # Localizações
+        requisitos += [
+            f"{l.localizacao.cidade} {l.localizacao.estado} {l.localizacao.pais}"
+            for l in self.vagalocalizacao_set.select_related("localizacao")
+        ]
+
+        return requisitos
+
+
+
 
 class DecisaoVaga(models.Model):
     vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE, related_name='decisoes')

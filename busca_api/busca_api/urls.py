@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from django.shortcuts import render
 
 def index(request):
-    return render(request, "index.html")  # front principal
+    return render(request, "usuario/index.html")  # front principal
 
 urlpatterns = [
     path('admin/', admin.site.urls),

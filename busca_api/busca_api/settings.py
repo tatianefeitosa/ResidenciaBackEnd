@@ -27,6 +27,10 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-local-placeholder-key
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.2/howto/static-files/
+
+BASE_DIR = Path(__file__).resolve().parent.parent  
 
 
 # Application definition
@@ -135,10 +139,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-BASE_DIR = Path(__file__).resolve().parent.parent  
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'

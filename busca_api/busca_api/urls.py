@@ -19,9 +19,15 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import render
+
+def index(request):
+    return render(request, "index.html")  # front principal
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path("", index),
 
     # usuários
     path('api/usuarios/', include('usuarios.urls')),

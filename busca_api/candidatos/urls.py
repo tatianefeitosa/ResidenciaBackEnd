@@ -4,7 +4,8 @@ from .views import (
     CandidatoBatchCreateView,
     resultados_view,
     candidatos_page,
-    candidato_detalhes_page
+    candidato_detalhes_page,
+    CandidatosPorVagaView
 
     # adicione aqui suas outras views (List, Detail, Ranking etc.)
 )

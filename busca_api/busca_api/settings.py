@@ -58,13 +58,6 @@ INSTALLED_APPS = [
 
 ]
 
-# Static files
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",   # Corrigido: a pasta static está dentro de busca_api
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,14 +99,7 @@ WSGI_APPLICATION = 'busca_api.wsgi.application'
 
 # Banco de dados - usa variáveis do .env
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME"),
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
-        "HOST": os.environ.get("DB_HOST"),
-        "PORT": os.environ.get("DB_PORT", "6543"),
-    }
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
 
